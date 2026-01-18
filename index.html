@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wela - The Time Master</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&family=Noto+Sans+Thai:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Thai', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            bg: '#050507',
+                            card: '#0F0F12',
+                            border: '#1E1E24'
+                        },
+                        brand: {
+                            gold: '#FFD700',
+                            orange: '#FF8C00',
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'hero-glow': 'conic-gradient(from 90deg at 50% 50%, #000000 0%, #1a1a1a 50%, #000000 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for Premium Feel */
+        body {
+            background-color: #050507;
+            color: #E2E2E2;
+            overflow-x: hidden;
+        }
+
+        /* 1. Animated W Logo (Stroke Effect) */
+        .w-stroke {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawW 3s ease-out forwards, pulseGlow 4s infinite alternate;
+        }
+        @keyframes drawW {
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes pulseGlow {
+            from { filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.3)); }
+            to { filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6)); }
+        }
+
+        /* 2. Glassmorphism Cards */
+        .glass-card {
+            background: rgba(20, 20, 25, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(25, 25, 35, 0.8);
+            transform: translateY(-5px);
+        }
+
+        /* 3. Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-blue {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 4. Range Slider Customization */
+        input[type=range] {
+            -webkit-appearance: none; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 24px; width: 24px;
+            border-radius: 50%; background: #3B82F6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+            margin-top: -10px; cursor: pointer; border: 2px solid white;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; background: #334155; border-radius: 99px;
+        }
+
+        /* 5. Spotlight Effect */
+        .spotlight {
+            background: radial-gradient(600px circle at var(--x) var(--y), rgba(59,130,246,0.1), transparent 40%);
+        }
+        
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white" x-data="{ scroll: 0 }" @scroll.window="scroll = window.pageYOffset">
+
+    <nav class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent"
+         :class="{ 'bg-dark-bg/80 backdrop-blur-md border-white/10 py-4': scroll > 50, 'py-6 bg-transparent': scroll <= 50 }">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12h1.5L8 20l4-16 4 16 2.5-8H20" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="font-display font-bold text-xl tracking-wide text-white">Wela</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#features" class="hover:text-white transition-colors">Features</a>
+                <a href="#simulator" class="hover:text-white transition-colors">Simulator</a>
+                <a href="#" class="text-white bg-white/10 px-5 py-2 rounded-full hover:bg-white/20 transition-all border border-white/5">Download App</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        
+        <div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none select-none z-0">
+            <svg viewBox="0 0 100 50" class="w-[150vw] h-[150vw] md:w-[80vw] md:h-[40vw]">
+                <path d="M0 25 L20 25 L35 45 L50 5 L65 45 L80 25 L100 25" 
+                      fill="none" stroke="url(#grad1)" stroke-width="0.5" class="w-stroke"/>
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0" />
+                        <stop offset="50%" style="stop-color:#3B82F6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-[-50px]">
+            <div data-aos="fade-down" data-aos-duration="1000">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-md">
+                    The Future of HR
+                </span>
+            </div>
+            
+            <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-none mb-6" data-aos="zoom-out" data-aos-duration="1200">
+                <span class="text-white">We</span><span class="text-gradient-blue">la</span>
+            </h1>
+            
+            <p class="font-light text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+                ไม่ใช่แค่แอปตอกบัตร... แต่มันคือ <span class="text-white font-medium">Time Machine</span> ที่จะคืนเวลาอันมีค่า ให้ธุรกิจของคุณ
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center" data-aos="fade-up" data-aos-delay="400">
+                <button class="group relative px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:bg-gray-100 transition-all active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] overflow-hidden">
+                    <span class="relative z-10 flex items-center gap-2">
+                        Get Started Free
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </span>
+                </button>
+                <button class="px-8 py-4 text-gray-400 hover:text-white flex items-center gap-2 transition-colors">
+                    <svg class="w-10 h-10 rounded-full border border-gray-700 p-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    Watch the film
+                </button>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 w-full h-32 bg-gradient-to-t from-dark-bg to-transparent z-20"></div>
+    </header>
+
+    <section id="features" class="py-24 relative z-20 bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 md:flex justify-between items-end border-b border-white/5 pb-8" data-aos="fade-right">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-white max-w-xl">
+                    Master Your <br><span class="text-gray-600">Organization.</span>
+                </h2>
+                <p class="text-gray-400 mt-4 md:mt-0 max-w-sm text-right md:text-left">
+                    รวมทุกฟังก์ชันที่ HR ต้องการ ไว้ในดีไซน์ที่สวยงามที่สุดเท่าที่เคยมีมา
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[600px]">
+                
+                <div class="group glass-card rounded-3xl p-8 relative overflow-hidden transition-all duration-500 md:row-span-2" 
+                     data-aos="fade-up" 
+                     onmousemove="document.getElementById('spot1').style.setProperty('--x', event.offsetX + 'px'); document.getElementById('spot1').style.setProperty('--y', event.offsetY + 'px');">
+                    <div id="spot1" class="spotlight absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6 border border-blue-500/30">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Precision GPS</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                ลงเวลาด้วยความแม่นยำระดับดาวเทียม พร้อมแผนที่ Real-time ป้องกันการโกง 100%
+                            </p>
+                        </div>
+                        
+                        <div class="mt-8 bg-black/40 rounded-2xl p-4 border border-white/5 h-48 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-[url('https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/100.5018,13.7563,12,0/400x400?access_token=pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJja2xpbmxpbnMwMnpmMnBzYnd1YXI2cm5oIn0.BjH6X92q1X7w8_8v-d9q9w')] bg-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-700"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <span class="relative flex h-4 w-4">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-4 w-4 bg-blue-500 border-2 border-white"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group glass-card rounded-3xl p-8 relative overflow-hidden md:col-span-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="md:w-1/2">
+                            <h3 class="text-2xl font-bold text-white mb-2">One-Touch Payroll</h3>
+                            <p class="text-gray-400 text-sm">
+                                คำนวณเงินเดือน ภาษี ประกันสังคม จบในคลิกเดียว ส่งสลิปเข้ามือถือพนักงานทันที
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 w-full h-24 flex items-end justify-between gap-2 px-4">
+                            <div class="w-full bg-blue-500/20 rounded-t h-[40%] group-hover:h-[60%] transition-all duration-500 delay-75"></div>
+                            <div class="w-full bg-blue-500/40 rounded-t h-[60%] group-hover:h-[80%] transition-all duration-500 delay-100"></div>
+                            <div class="w-full bg-blue-500/60 rounded-t h-[30%] group-hover:h-[50%] transition-all duration-500 delay-150"></div>
+                            <div class="w-full bg-blue-500 rounded-t h-[80%] group-hover:h-[100%] transition-all duration-500 delay-200 shadow-[0_0_20px_rgba(59,130,246,0.5)]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group glass-card rounded-3xl p-8 relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-40 transition-opacity">
+                        <svg class="w-24 h-24 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 5H5a2 2 0 00-2 2v3m16-3h-3a2 2 0 01-2-2V5m0 14h3a2 2 0 002-2v-3M5 19h3a2 2 0 002 2v3" /></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Biometric Security</h3>
+                    <p class="text-gray-400 text-sm">เข้าถึงข้อมูลด้วย Face ID / Touch ID ปลอดภัยสูงสุด</p>
+                </div>
+
+                <div class="group glass-card rounded-3xl p-8 relative overflow-hidden bg-gradient-to-br from-blue-900/40 to-transparent" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-xl font-bold text-white mb-2">Smart Insights</h3>
+                    <div class="text-4xl font-bold text-blue-400 mt-4 font-display">
+                        +240%
+                    </div>
+                    <p class="text-gray-400 text-xs mt-1">Productivity Increase</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="simulator" class="py-24 bg-[#08080A] relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10" 
+             x-data="{ 
+                 employees: 20, 
+                 hours: 30,
+                 get saving() { return (this.employees * this.hours * 8 * 12).toLocaleString() },
+                 get timeback() { return (this.employees * this.hours * 12).toLocaleString() }
+             }">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-display font-bold text-white mb-4">The Cost of Chaos</h2>
+                <p class="text-gray-400">ลองคำนวณดูว่าระบบ HR แบบเก่า ทำร้ายบริษัทคุณแค่ไหน</p>
+            </div>
+
+            <div class="glass-card rounded-[2.5rem] p-8 md:p-12 border border-blue-500/20 shadow-[0_0_50px_rgba(59,130,246,0.1)]">
+                
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-4">
+                                <label class="text-gray-400 text-sm font-medium uppercase tracking-wider">Employees</label>
+                                <span class="text-2xl font-bold text-white" x-text="employees"></span>
+                            </div>
+                            <input type="range" min="5" max="200" step="5" x-model="employees" class="w-full accent-blue-500">
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-4">
+                                <label class="text-gray-400 text-sm font-medium uppercase tracking-wider">Wasted Hours / Mo</label>
+                                <span class="text-2xl font-bold text-white" x-text="hours + ' hrs'"></span>
+                            </div>
+                            <input type="range" min="5" max="50" step="5" x-model="hours" class="w-full accent-blue-500">
+                            <p class="text-xs text-gray-500 mt-2">*เวลาที่เสียไปกับการทำเอกสาร HR, คำนวณเงินเดือน, แก้ปัญหาขาดลา</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/40 rounded-3xl p-8 text-center border border-white/5 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent"></div>
+                        
+                        <p class="text-gray-400 mb-2 relative z-10">Money Wasted / Year</p>
+                        <div class="text-5xl md:text-6xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 relative z-10" x-text="'฿' + saving"></div>
+                        
+                        <div class="my-6 border-t border-white/10 relative z-10"></div>
+                        
+                        <p class="text-gray-400 mb-2 relative z-10">Time Lost / Year</p>
+                        <div class="text-3xl font-bold text-white relative z-10" x-text="timeback + ' hrs'"></div>
+
+                        <div class="mt-8 relative z-10">
+                            <button class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold shadow-lg shadow-blue-600/30 transition-all active:scale-95">
+                                Stop the Loss with Wela
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black border-t border-white/10 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <h2 class="text-4xl font-display font-bold text-white mb-6 md:mb-0">
+                    Ready to reclaim your <br> <span class="text-blue-500">Wela?</span>
+                </h2>
+                <div class="flex gap-4">
+                    <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-blue-600 hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-blue-600 hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+                <p>&copy; 2024 Wela HR. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                    <a href="#" class="hover:text-white transition-colors">Security</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+</body>
+</html>
