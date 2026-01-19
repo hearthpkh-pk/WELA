@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wela - Interactive Demo</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@500;700;900&family=Noto+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'Noto Sans Thai', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    },
+                    colors: {
+                        dark: { bg: '#050507', card: '#0F0F12', border: '#1E1E24' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050507; color: white; overflow-x: hidden; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .phone-frame {
+            box-shadow: 0 0 0 12px #2c2c2e, 0 0 0 14px #1a1a1a, 0 20px 50px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
+        }
+        .phone-frame:hover { transform: translateY(-5px); }
+        .notch {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 120px; height: 30px; background: #2c2c2e;
+            border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; z-index: 50;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <div class="fixed inset-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150 z-0"></div>
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] animate-blob" style="animation-delay: 2s"></div>
+    </div>
+
+    <nav class="absolute top-0 w-full z-50 py-6 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-blue-500/20 hover:scale-105 transition-transform">
+                    <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/>
+                        <path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight hidden sm:inline">Wela Platform</span>
+            </div>
+
+            <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-all text-sm font-medium backdrop-blur-md group">
+                <i class="ph-bold ph-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex items-center justify-center relative z-10 py-24 lg:py-0">
+        <div class="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="text-center lg:text-left space-y-8 order-2 lg:order-1" data-aos="fade-right">
+                
+                <div class="space-y-4">
+                    <div class="inline-block px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-bold tracking-widest uppercase">
+                        ⚡ Interactive Demo
+                    </div>
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.1]">
+                        อย่าเพิ่งเชื่อ... <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">จนกว่าจะได้กด</span>
+                    </h1>
+                    <p class="text-xl text-slate-400 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        ลองกดปุ่ม <strong>Check-in</strong> บนหน้าจอมือถือขวามือดูสิครับ... 
+                        แล้วคุณจะรู้ว่าทำไม HR กว่า 500 บริษัท ถึงเลิกใช้เครื่องตอกบัตร
+                    </p>
+                </div>
+
+                <div class="grid gap-4 py-6 text-left max-w-md mx-auto lg:mx-0">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                            <i class="ph-fill ph-fingerprint text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">เร็วใน 1 วินาที</h3>
+                            <p class="text-xs text-slate-400">แค่กดค้าง (Hold) ก็ลงเวลาเสร็จทันที</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                            <i class="ph-fill ph-map-pin text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">GPS กันโกง 100%</h3>
+                            <p class="text-xs text-slate-400">ต้องอยู่ในรัศมีบริษัทเท่านั้นถึงกดได้</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                    <a href="#comparison" class="px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:bg-slate-200 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                        เลื่อนลงเพื่อดูความต่าง
+                        <i class="ph-bold ph-arrow-down"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-center perspective-1000 order-1 lg:order-2" data-aos="fade-left">
+                <div class="relative w-[340px] h-[680px] bg-white rounded-[40px] phone-frame overflow-hidden shadow-2xl animate-float" 
+                     x-data="appData()">
+                    
+                    <div class="notch"></div>
+                    <div class="h-10 w-full flex justify-between items-center px-6 pt-2 text-[10px] font-medium text-black/80 absolute top-0 z-40 mix-blend-difference">
+                        <span>09:41</span>
+                        <div class="flex gap-1.5 text-lg">
+                            <i class="ph-fill ph-cell-signal-full"></i>
+                            <i class="ph-fill ph-wifi-high"></i>
+                            <i class="ph-fill ph-battery-full"></i>
+                        </div>
+                    </div>
+
+                    <div class="h-full bg-[#F2F2F7] pt-14 px-6 flex flex-col items-center relative">
+                        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                             <div class="absolute top-[-10%] -left-[20%] w-80 h-80 rounded-full bg-blue-400/20 blur-3xl opacity-50"></div>
+                             <div class="absolute top-[10%] -right-[20%] w-80 h-80 rounded-full bg-purple-400/20 blur-3xl opacity-50"></div>
+                        </div>
+
+                        <div class="relative z-10 w-full text-center">
+                            <div class="flex justify-between items-center mb-8">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg overflow-hidden shadow-sm">
+                                        <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                                            <rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/>
+                                            <path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span class="font-bold text-slate-800">Wela</span>
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-100">
+                                    <i class="ph-fill ph-user-circle text-xl"></i>
+                                </div>
+                            </div>
+
+                            <h2 class="text-3xl font-extrabold text-[#1C1C1E] tracking-tight mb-8 text-left">Attendance</h2>
+                            
+                            <div class="text-center mb-10">
+                                <h1 class="text-[4.5rem] font-bold text-[#1C1C1E] leading-none tracking-tighter" x-text="time"></h1>
+                                <span class="text-sm font-bold tracking-tight mt-2 block" :class="clockIn ? 'text-[#FF3B30]' : 'text-[#007AFF]'" x-text="clockIn ? 'Ready to Clock Out' : 'Ready to Clock In'"></span>
+                            </div>
+
+                            <div class="flex justify-center mb-8 relative">
+                                <div x-show="!hasInteracted" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none flex flex-col items-center">
+                                    <div class="w-12 h-12 rounded-full bg-black/20 animate-ping absolute"></div>
+                                    <i class="ph-fill ph-hand-tap text-4xl text-slate-800 animate-bounce relative top-8"></i>
+                                    <span class="bg-black text-white text-[10px] px-2 py-1 rounded-md mt-10 shadow-lg whitespace-nowrap">กดค้างเพื่อลอง</span>
+                                </div>
+
+                                <div @mousedown="startHold" @mouseup="endHold" @mouseleave="endHold" @touchstart="startHold" @touchend="endHold"
+                                     class="w-56 h-56 rounded-full bg-white flex items-center justify-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-200 cursor-pointer select-none active:scale-95 relative overflow-hidden"
+                                     :class="holding ? 'scale-95 shadow-inner' : ''">
+                                     
+                                    <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="46" fill="none" stroke="#f0f0f0" stroke-width="2" />
+                                        <circle cx="50" cy="50" r="46" fill="none" :stroke="clockIn ? '#FF3B30' : '#007AFF'" stroke-width="2" stroke-dasharray="289" :stroke-dashoffset="289 - (progress * 2.89)" class="transition-all duration-75" />
+                                    </svg>
+                                    <div class="flex flex-col items-center gap-2 z-10">
+                                        <i class="ph-fill ph-fingerprint text-7xl transition-colors duration-300" :class="clockIn ? 'text-[#FF3B30]' : 'text-[#007AFF]'"></i>
+                                        <span class="text-[10px] font-bold text-slate-300 tracking-[0.2em] uppercase" x-text="holding ? 'HOLDING...' : 'HOLD'"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center">
+                                <div class="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm flex items-center gap-2 border border-white">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span class="text-xs font-bold text-slate-600">GPS: Central Rama 9</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div x-show="showPopup" x-transition class="absolute inset-0 z-50 flex items-center justify-center px-6 bg-black/20 backdrop-blur-sm">
+                            <div class="bg-white p-6 rounded-[32px] shadow-2xl text-center w-full relative z-10">
+                                <div class="w-16 h-16 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="ph-fill ph-check-circle text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2" x-text="clockIn ? 'ลงเวลาสำเร็จ!' : 'เลิกงานแล้ว!'"></h3>
+                                <p class="text-slate-500 text-xs mb-6">ระบบบันทึกพิกัด GPS เรียบร้อยแล้ว</p>
+                                <button @click="showPopup = false" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm">ตกลง</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comparison" class="py-24 bg-dark-bg relative z-10 border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">หยุดการทำงานแบบ <span class="text-slate-500 line-through decoration-red-500 decoration-4">ยุคหิน</span></h2>
+                <p class="text-slate-400 text-lg">เทียบให้เห็นกันชัดๆ ว่า Wela ช่วยคุณประหยัดชีวิตได้ยังไง</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card p-8 rounded-3xl border-l-4 border-l-red-500/50 opacity-60 hover:opacity-100 transition-opacity" data-aos="fade-right">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-red-500/10 text-red-500 rounded-xl flex items-center justify-center text-2xl"><i class="ph-fill ph-x-circle"></i></div>
+                        <h3 class="text-2xl font-bold text-white">แบบเดิมๆ</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-400">
+                        <li class="flex gap-3"><i class="ph-bold ph-warning text-red-500 mt-1"></i> <span>ตอกบัตรแทนกันง่าย โกงเวลาได้</span></li>
+                        <li class="flex gap-3"><i class="ph-bold ph-warning text-red-500 mt-1"></i> <span>HR นั่งปวดหัวกับ Excel สิ้นเดือน</span></li>
+                        <li class="flex gap-3"><i class="ph-bold ph-warning text-red-500 mt-1"></i> <span>เอกสารขอลาหาย หรือกองท่วมโต๊ะ</span></li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl border-l-4 border-l-blue-500 relative overflow-hidden group" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="w-12 h-12 rounded-xl shadow-lg overflow-hidden">
+                            <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                                <rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/>
+                                <path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Wela Platform</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-300 relative z-10">
+                        <li class="flex gap-3"><i class="ph-fill ph-check-circle text-blue-500 mt-1"></i> <span class="font-medium text-white">GPS Lock:</span> ลงเวลาได้เฉพาะจุดที่กำหนด</li>
+                        <li class="flex gap-3"><i class="ph-fill ph-check-circle text-blue-500 mt-1"></i> <span class="font-medium text-white">Auto Payroll:</span> คำนวณเงินเดือนใน 1 วินาที</li>
+                        <li class="flex gap-3"><i class="ph-fill ph-check-circle text-blue-500 mt-1"></i> <span class="font-medium text-white">Real-time:</span> ผู้บริหารดูภาพรวมได้ตลอดเวลา</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-black relative overflow-hidden z-10">
+        <div class="max-w-6xl mx-auto px-6 space-y-32">
+            
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 relative" data-aos="fade-up">
+                    <div class="bg-gradient-to-br from-[#1e1e24] to-[#0F0F12] p-6 rounded-[2rem] border border-white/10 shadow-2xl relative">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div class="text-xs text-slate-500 font-mono">PAYROLL.EXE</div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="ph-fill ph-user"></i></div>
+                                    <div><div class="w-24 h-2 bg-white/20 rounded mb-1"></div><div class="w-16 h-2 bg-white/10 rounded"></div></div>
+                                </div>
+                                <div class="text-right"><div class="text-green-400 font-bold text-sm">฿25,000</div><div class="text-[10px] text-slate-500">PAID</div></div>
+                            </div>
+                        </div>
+                        <div class="absolute -right-6 -bottom-6 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg animate-bounce">
+                            Save 20 Hrs/Mo
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2" data-aos="fade-left">
+                    <div class="w-16 h-16 bg-blue-500/20 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6"><i class="ph-fill ph-money"></i></div>
+                    <h2 class="text-4xl font-display font-bold mb-4">เงินเดือนออก... <br> แบบไม่ต้องปวดหัว</h2>
+                    <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                        ลืมเครื่องคิดเลขไปได้เลย ระบบคำนวณเงินเดือนให้อัตโนมัติ พร้อมออกสลิปเงินเดือนออนไลน์ส่งตรงถึงมือถือพนักงาน
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="order-1" data-aos="fade-right">
+                    <div class="w-16 h-16 bg-purple-500/20 text-purple-500 rounded-2xl flex items-center justify-center text-3xl mb-6"><i class="ph-fill ph-files"></i></div>
+                    <h2 class="text-4xl font-display font-bold mb-4">เอกสารกองเท่าภูเขา... <br> เหลือแค่ปลายนิ้ว</h2>
+                    <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                        จะลาป่วย ลากิจ หรือลืมตอกบัตร ก็กดขอผ่านแอปได้เลย หัวหน้างานได้รับแจ้งเตือนทันทีและกดอนุมัติได้ทุกที่
+                    </p>
+                </div>
+                <div class="order-2 relative" data-aos="fade-up">
+                     <div class="bg-gradient-to-bl from-[#1e1e24] to-[#0F0F12] p-8 rounded-[2rem] border border-white/10 shadow-2xl">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-xl font-bold">Requests</h3>
+                            <div class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-bold">3 New</div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-white/5 p-4 rounded-2xl border border-white/5 flex gap-4 hover:bg-white/10 transition-colors cursor-pointer">
+                                <div class="w-12 h-12 bg-orange-500/20 text-orange-400 rounded-full flex items-center justify-center text-xl shrink-0"><i class="ph-fill ph-airplane-tilt"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between mb-1"><h4 class="font-bold text-sm">Sick Leave</h4><span class="text-[10px] text-slate-500">2m ago</span></div>
+                                    <p class="text-xs text-slate-400">Somchai requested 2 days leave.</p>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-24 bg-gradient-to-b from-dark-bg to-black text-center relative z-10 border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-6" data-aos="zoom-in">
+            <h2 class="text-4xl md:text-6xl font-display font-black mb-6">พร้อมเปลี่ยนบริษัทให้ <br> <span class="text-gradient">Smart</span> หรือยัง?</h2>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+                <a href="https://smart-hr-app.vercel.app/signup" class="px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold text-xl shadow-[0_0_40px_rgba(37,99,235,0.4)] transition-all active:scale-95">
+                    ลงทะเบียนใช้งานฟรี
+                </a>
+            </div>
+            <p class="mt-8 text-xs text-slate-600">© 2024 Wela Platform. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script>
+        AOS.init({ once: true, duration: 800 });
+
+        function appData() {
+            return {
+                time: '00:00',
+                holding: false,
+                progress: 0,
+                interval: null,
+                clockIn: false,
+                showPopup: false,
+                hasInteracted: false,
+                init() {
+                    setInterval(() => {
+                        const now = new Date();
+                        this.time = now.toLocaleTimeString('en-US', {hour12: false, hour:'2-digit', minute:'2-digit'});
+                    }, 1000);
+                },
+                startHold() {
+                    this.hasInteracted = true;
+                    this.holding = true;
+                    this.interval = setInterval(() => {
+                        this.progress += 2;
+                        if (this.progress >= 100) {
+                            this.endHold();
+                            this.clockIn = !this.clockIn;
+                            this.showPopup = true;
+                        }
+                    }, 20);
+                },
+                endHold() {
+                    this.holding = false;
+                    this.progress = 0;
+                    clearInterval(this.interval);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
