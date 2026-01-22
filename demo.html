@@ -14,6 +14,7 @@
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
@@ -40,13 +41,14 @@
     <style>
         body { background-color: #050507; color: white; overflow-x: hidden; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        html { scroll-behavior: smooth; }
         
-        /* W-Stroke Animation (จากหน้าแรก) */
+        /* W-Stroke Animation */
         .w-stroke { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawW 3s ease-out forwards, pulseGlow 4s infinite alternate; }
         @keyframes drawW { to { stroke-dashoffset: 0; } }
         @keyframes pulseGlow { from { filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.3)); } to { filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6)); } }
 
-        /* Desktop Style (Grid Layout) */
+        /* Desktop Style */
         @media (min-width: 1024px) {
             .phone-frame {
                 box-shadow: 0 0 0 12px #2c2c2e, 0 0 0 14px #1a1a1a, 0 20px 50px rgba(0,0,0,0.6);
@@ -64,15 +66,13 @@
                 width: 100% !important;
             }
             .mobile-slide { 
-                width: auto !important; 
-                height: auto !important; 
-                flex-shrink: 1 !important; 
-                scroll-snap-align: none !important;
+                width: auto !important; height: auto !important; 
+                flex-shrink: 1 !important; scroll-snap-align: none !important;
                 display: block !important;
             }
         }
 
-        /* Mobile Style (Swipe Layout) */
+        /* Mobile Style */
         @media (max-width: 1023px) {
             .phone-frame {
                 box-shadow: none; border-radius: 0; border: none;
@@ -80,22 +80,13 @@
             }
             .notch { display: none; }
             .mobile-snap-container {
-                display: flex;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                width: 100vw;
-                height: 100vh;
-                scroll-behavior: smooth;
+                display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+                width: 100vw; height: 100vh; scroll-behavior: smooth;
             }
             .mobile-slide {
-                width: 100vw;
-                height: 100vh;
-                flex-shrink: 0;
-                scroll-snap-align: center;
-                overflow-y: hidden;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
+                width: 100vw; height: 100vh; flex-shrink: 0;
+                scroll-snap-align: center; overflow-y: hidden;
+                display: flex; flex-direction: column; justify-content: center;
             }
             [data-aos] { opacity: 1 !important; transform: none !important; }
         }
@@ -112,10 +103,9 @@
         .glass-card:hover { border-color: rgba(59, 130, 246, 0.3); background: rgba(25, 25, 35, 0.8); }
     </style>
 </head>
-<body class="selection:bg-blue-500 selection:text-white">
+<body class="selection:bg-blue-500 selection:text-white" x-data="{ mobileMenuOpen: false }">
 
     <div class="fixed inset-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150 z-0"></div>
-    
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] animate-blob"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] animate-blob" style="animation-delay: 2s"></div>
@@ -127,40 +117,75 @@
         </div>
     </div>
 
-    <nav class="absolute top-0 w-full z-50 py-4 px-4 lg:py-6 lg:px-6 hidden lg:block">
+    <nav class="absolute top-0 w-full z-50 py-6 px-6 hidden lg:block">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <span class="font-display font-bold text-lg sm:text-xl tracking-wide">Wela Platform</span>
-            </div>
-            <a href="index.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-medium backdrop-blur-md">
-                <i class="ph-bold ph-arrow-left"></i> Back to Home
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-[10px] overflow-hidden shadow-lg bg-white p-1">
+                    <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="font-display font-bold text-xl tracking-wide text-white">Wela</span>
             </a>
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-6 text-sm font-medium">
+                    <a href="demo.html" class="text-white relative group">
+                        ฟีเจอร์
+                        <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-500 rounded-full"></span>
+                    </a>
+                    <a href="#social-proof" class="text-slate-400 hover:text-white transition-colors">รีวิวลูกค้า</a>
+                    <a href="#faq" class="text-slate-400 hover:text-white transition-colors">ถาม-ตอบ</a>
+                    <a href="pricing.html" class="text-slate-400 hover:text-white transition-colors">ราคา</a>
+                </div>
+                <a href="#" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg shadow-blue-600/30 active:scale-95">Download App</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="absolute top-0 w-full z-50 p-6 lg:hidden">
+        <div class="flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-[8px] overflow-hidden shadow-lg bg-white p-1">
+                    <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="font-display font-bold text-lg tracking-wide text-white">Wela</span>
+            </a>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white p-2 focus:outline-none">
+                <i class="ph-bold ph-list text-2xl" x-show="!mobileMenuOpen"></i>
+                <i class="ph-bold ph-x text-2xl" x-show="mobileMenuOpen" style="display: none;"></i>
+            </button>
+        </div>
+        <div x-show="mobileMenuOpen" x-collapse class="absolute top-20 left-0 w-full px-4 z-50" style="display: none;">
+            <div class="bg-[#1c1c1e]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col gap-2">
+                <a href="demo.html" class="p-3 rounded-xl bg-white/10 text-white font-bold flex justify-between items-center">
+                    ฟีเจอร์ <i class="ph-bold ph-caret-right"></i>
+                </a>
+                <a href="#social-proof" @click="mobileMenuOpen = false" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">รีวิวลูกค้า</a>
+                <a href="#faq" @click="mobileMenuOpen = false" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">ถาม-ตอบ</a>
+                <a href="pricing.html" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">ราคา</a>
+                <div class="h-px bg-white/10 my-1"></div>
+                <a href="#" class="p-3 rounded-xl bg-blue-600 text-white font-bold text-center">Download App</a>
+            </div>
         </div>
     </nav>
 
     <section class="min-h-screen relative z-10 py-0 lg:flex lg:items-center lg:justify-center overflow-hidden">
-        
         <div class="mobile-snap-container lg:max-w-7xl lg:mx-auto lg:px-6 lg:w-full">
             
             <div class="mobile-slide flex flex-col justify-center px-6 lg:px-0 text-center lg:text-left order-1" data-aos="fade-right">
                 
-                <div class="lg:hidden absolute top-6 left-6 z-50">
-                    <a href="index.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs font-bold">
-                        <i class="ph-bold ph-arrow-left"></i> Home
-                    </a>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="inline-block px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] lg:text-xs font-bold tracking-widest uppercase">
-                        ⚡ Interactive Demo
-                    </div>
+                <div class="space-y-4 pt-16 lg:pt-0">
+                    <div class="inline-block px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] lg:text-xs font-bold tracking-widest uppercase">THE FUTURE OF HR</div>
                     <h1 class="text-4xl lg:text-7xl font-display font-black tracking-tight leading-[1.1]">
-                        อย่าเพิ่งเชื่อ... <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">จนกว่าจะได้กด</span>
+                        ลดความยุ่งยาก...<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">'ให้ชีวิตง่ายขึ้น'</span>
                     </h1>
                     <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-                        ลองกดปุ่ม <strong>Check-in</strong> บนหน้าจอมือถือจำลองดูสิครับ... 
-                        แล้วคุณจะรู้ว่าทำไม HR ถึงรักเรา
+                        ลองกดปุ่ม Check-in บนหน้าจอมือถือจำลองดูสิครับ... แล้วคุณจะรู้ว่าทำไมพนักงานถึงชอบ
                     </p>
                 </div>
 
@@ -188,15 +213,10 @@
             </div>
 
             <div class="mobile-slide flex justify-center perspective-1000 order-2 lg:block" data-aos="fade-up">
-                <div class="relative bg-white phone-frame overflow-hidden shadow-2xl animate-float lg:rounded-[40px]" 
-                     x-data="appData()">
-                    
+                <div class="relative bg-white phone-frame overflow-hidden shadow-2xl animate-float lg:rounded-[40px]" x-data="appData()">
                     <div class="notch hidden lg:block"></div>
-                    
                     <div class="h-full bg-[#F2F2F7] pt-20 lg:pt-14 px-6 flex flex-col items-center relative">
-                        <div class="lg:hidden absolute top-6 left-6 z-50 opacity-50" @click="document.querySelector('.mobile-snap-container').scrollLeft = 0">
-                            <i class="ph-bold ph-caret-left text-slate-400 text-2xl"></i>
-                        </div>
+                        <div class="lg:hidden absolute top-6 left-6 z-50 opacity-50" @click="document.querySelector('.mobile-snap-container').scrollLeft = 0"><i class="ph-bold ph-caret-left text-slate-400 text-2xl"></i></div>
 
                         <div class="relative z-10 w-full text-center h-full flex flex-col">
                             <div class="flex justify-between items-center mb-8 shrink-0">
@@ -244,9 +264,7 @@
                                 <div class="w-16 h-16 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph-fill ph-check-circle text-3xl"></i></div>
                                 <h3 class="text-xl font-bold text-slate-900 mb-2">ลงเวลาสำเร็จ!</h3>
                                 <p class="text-slate-500 text-xs mb-6">ง่ายแค่นี้เลย! พร้อมใช้ระบบนี้กับร้านของคุณหรือยัง?</p>
-                                <button onclick="window.location.href='pricing.html'" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-sm transition-colors shadow-lg shadow-blue-500/30">
-    เริ่มต้นใช้งานฟรี
-</button>
+                                <button onclick="window.location.href='pricing.html'" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-sm transition-colors shadow-lg shadow-blue-500/30">ดูแพ็กเกจราคา</button>
                                 <button @click="showPopup = false" class="mt-3 text-slate-400 text-xs hover:text-slate-600">ลองเล่นอีกครั้ง</button>
                             </div>
                         </div>
@@ -256,7 +274,7 @@
         </div>
     </section>
 
-    <section id="comparison" class="py-24 bg-dark-bg relative z-10 border-t border-white/5">
+    <section id="comparison" class="py-24 relative z-10 border-t border-white/5">
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">หยุดการทำงานแบบ <span class="text-slate-500 line-through decoration-red-500 decoration-4">ยุคหิน</span></h2>
@@ -278,7 +296,18 @@
         </div>
     </section>
 
-    <section class="py-24 bg-black relative overflow-hidden z-10" x-data="{ activeTab: 1 }">
+    <section id="social-proof" class="py-16 md:py-20 border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-10"><p class="text-slate-500 text-xs font-semibold tracking-widest uppercase mb-2">Trusted by 500+ Businesses</p><h2 class="text-2xl md:text-3xl font-bold text-white">ธุรกิจที่เติบโต เลือกใช้ Wela</h2></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl"><div class="flex items-center gap-4 mb-4"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=100&q=80" alt="User" class="w-12 h-12 rounded-full border border-white/10"><div><h4 class="text-white font-bold text-sm">คุณนนท์</h4><p class="text-blue-400 text-xs">Owner, Craft Beer</p></div></div><p class="text-slate-300 text-sm italic">"เมื่อก่อนของหายบ่อย พนักงานแอบเปิดเหล้ากินเอง พอใช้ Wela แล้วจบปัญหาเลย รู้หมดใครเข้าออกตอนไหน เอาเวลาไปคิดเมนูใหม่ดีกว่า"</p></div>
+                <div class="glass-card p-6 rounded-2xl"><div class="flex items-center gap-4 mb-4"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" alt="User" class="w-12 h-12 rounded-full border border-white/10"><div><h4 class="text-white font-bold text-sm">คุณแพรว</h4><p class="text-purple-400 text-xs">Owner, Clinic</p></div></div><p class="text-slate-300 text-sm italic">"คลินิกมีพนักงานหลายกะ สลับเวรกันวุ่นวายมาก แต่ Wela ช่วยจัดการตารางเวรให้อัตโนมัติ สะดวกมากค่ะ"</p></div>
+                <div class="glass-card p-6 rounded-2xl"><div class="flex items-center gap-4 mb-4"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="User" class="w-12 h-12 rounded-full border border-white/10"><div><h4 class="text-white font-bold text-sm">คุณตี๋</h4><p class="text-green-400 text-xs">MD, Logistics</p></div></div><p class="text-slate-300 text-sm italic">"พนักงานขับรถต้องออกนอกสถานที่ตลอด ใช้ GPS Check-in ของ Wela ทำให้มั่นใจว่าเขาไปส่งของลูกค้าจริง ไม่ได้แอบอู้งาน"</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 relative overflow-hidden z-10" x-data="{ activeTab: 1 }">
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-16 md:flex justify-between items-end" data-aos="fade-up">
@@ -287,7 +316,7 @@
             <div class="grid lg:grid-cols-12 gap-12 items-start">
                 <div class="lg:col-span-5 space-y-4" data-aos="fade-right">
                     <div @click="activeTab = 1" class="p-6 rounded-2xl border transition-all duration-300 cursor-pointer group" :class="activeTab === 1 ? 'bg-white/10 border-blue-500/50 shadow-[0_0_30px_rgba(59,130,246,0.1)]' : 'bg-transparent border-transparent hover:bg-white/5'">
-                        <div class="flex items-center gap-4 mb-2"><div class="w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors" :class="activeTab === 1 ? 'bg-blue-500 text-white' : 'bg-white/10 text-slate-400 group-hover:bg-blue-500/20 group-hover:text-blue-400'"><i class="ph-fill ph-chart-pie-slice"></i></div><h3 class="text-xl font-bold text-white">ภาพรวมบริษัท</h3></div><p class="text-sm text-slate-400 pl-14">ดูสถิติการมาสาย ขาดงาน และต้นทุนค่าแรงแบบ Real-time</p>
+                        <div class="flex items-center gap-4 mb-2"><div class="w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors" :class="activeTab === 1 ? 'bg-blue-500 text-white' : 'bg-white/10 text-slate-400 group-hover:bg-blue-500/20 group-hover:text-blue-400'"><i class="ph-fill ph-chart-pie-slice"></i></div><h3 class="text-xl font-bold text-white">ภาพรวมบริษัท</h3></div><p class="text-sm text-slate-400 pl-14">ดูสถิติการมาสาย ขาดงาน และต้นทุนค่าแรงแบบ Real-time ไม่ต้องรอสิ้นเดือน</p>
                     </div>
                     <div @click="activeTab = 2" class="p-6 rounded-2xl border transition-all duration-300 cursor-pointer group" :class="activeTab === 2 ? 'bg-white/10 border-green-500/50 shadow-[0_0_30px_rgba(16,185,129,0.1)]' : 'bg-transparent border-transparent hover:bg-white/5'">
                         <div class="flex items-center gap-4 mb-2"><div class="w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors" :class="activeTab === 2 ? 'bg-green-500 text-white' : 'bg-white/10 text-slate-400 group-hover:bg-green-500/20 group-hover:text-green-400'"><i class="ph-fill ph-users-three"></i></div><h3 class="text-xl font-bold text-white">จัดการทีม & กะงาน</h3></div><p class="text-sm text-slate-400 pl-14">จัดตารางกะ อนุมัติวันลา และปรับฐานเงินเดือน จบในไม่กี่คลิก</p>
@@ -296,7 +325,6 @@
                         <div class="flex items-center gap-4 mb-2"><div class="w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors" :class="activeTab === 3 ? 'bg-purple-500 text-white' : 'bg-white/10 text-slate-400 group-hover:bg-purple-500/20 group-hover:text-purple-400'"><i class="ph-fill ph-files"></i></div><h3 class="text-xl font-bold text-white">เอกสาร & รายงาน</h3></div><p class="text-sm text-slate-400 pl-14">ส่งออกไฟล์ Excel นำส่งธนาคาร (Payroll) ลดงานเอกสาร 100%</p>
                     </div>
                 </div>
-                
                 <div class="lg:col-span-7 relative" data-aos="fade-left">
                     <div class="bg-[#0F0F12] border border-white/10 rounded-[2rem] p-6 md:p-8 shadow-2xl relative overflow-hidden min-h-[400px]">
                         <div class="flex items-center justify-between mb-8 opacity-50"><div class="w-32 h-3 bg-white/20 rounded-full"></div><div class="flex gap-2"><div class="w-8 h-8 bg-white/10 rounded-full"></div><div class="w-8 h-8 bg-white/10 rounded-full"></div></div></div>
@@ -330,7 +358,31 @@
         </div>
     </section>
 
-    <footer class="bg-black border-t border-white/10 pt-20 pb-10">
+    <section id="faq" class="py-16 border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">คำถามที่พบบ่อย</h2>
+            <div class="space-y-3" x-data="{ active: null }">
+                <div class="glass-card rounded-xl overflow-hidden" :class="active === 1 ? 'bg-white/10' : ''">
+                    <button @click="active = active === 1 ? null : 1" class="w-full p-4 text-left flex justify-between items-center"><span class="font-bold text-sm">พนักงานใช้มือถือรุ่นเก่า หรือเน็ตไม่ดี ใช้งานได้ไหม?</span><i class="ph-bold ph-caret-down"></i></button>
+                    <div x-show="active === 1" x-collapse><div class="px-4 pb-4 text-slate-300 text-sm">ใช้งานได้แน่นอนครับ! Wela ออกแบบมาให้ "เบา" ที่สุด รองรับทั้ง iOS และ Android รุ่นเก่า และมีระบบ Offline Mode หากเน็ตหลุด ข้อมูลจะถูกบันทึกไว้และอัปโหลดทันทีที่ต่อเน็ตได้</div></div>
+                </div>
+                <div class="glass-card rounded-xl overflow-hidden" :class="active === 2 ? 'bg-white/10' : ''">
+                    <button @click="active = active === 2 ? null : 2" class="w-full p-4 text-left flex justify-between items-center"><span class="font-bold text-sm">เริ่มต้นใช้งานยากไหม ต้องลงโปรแกรมอะไรหรือเปล่า?</span><i class="ph-bold ph-caret-down"></i></button>
+                    <div x-show="active === 2" x-collapse><div class="px-4 pb-4 text-slate-300 text-sm">ไม่ต้องลงโปรแกรมให้ยุ่งยากครับ เจ้าของร้านใช้งานผ่าน Web Browser ได้เลย ส่วนพนักงานแค่โหลดแอป Wela ลงมือถือ ก็พร้อมใช้งานใน 15 นาที เรามีทีม Support ช่วยสอนการใช้งานฟรี!</div></div>
+                </div>
+                <div class="glass-card rounded-xl overflow-hidden" :class="active === 3 ? 'bg-white/10' : ''">
+                    <button @click="active = active === 3 ? null : 3" class="w-full p-4 text-left flex justify-between items-center"><span class="font-bold text-sm">ข้อมูลปลอดภัยแค่ไหน?</span><i class="ph-bold ph-caret-down"></i></button>
+                    <div x-show="active === 3" x-collapse><div class="px-4 pb-4 text-slate-300 text-sm">ความปลอดภัยคือหัวใจของเรา ข้อมูลทั้งหมดถูกเข้ารหัส (Encryption) ระดับเดียวกับแอปธนาคาร และเก็บอยู่บน Cloud Server มาตรฐานโลก (Google Cloud Platform) มั่นใจได้ 100%</div></div>
+                </div>
+                <div class="glass-card rounded-xl overflow-hidden" :class="active === 4 ? 'bg-white/10' : ''">
+                    <button @click="active = active === 4 ? null : 4" class="w-full p-4 text-left flex justify-between items-center"><span class="font-bold text-sm">มีค่าใช้จ่ายเพิ่มเติม หรือสัญญาผูกมัดไหม?</span><i class="ph-bold ph-caret-down"></i></button>
+                    <div x-show="active === 4" x-collapse><div class="px-4 pb-4 text-slate-300 text-sm">ไม่มีสัญญาผูกมัดครับ! คุณสามารถเลือกจ่ายรายเดือนหรือรายปีได้ตามสะดวก และยกเลิกเมื่อไหร่ก็ได้ ไม่มีค่าธรรมเนียมแอบแฝง จ่ายตามจำนวนพนักงานจริงเท่านั้น</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black border-t border-white/10 pt-20 pb-24 lg:pb-10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center mb-12">
                 <div class="mb-6 md:mb-0"><h2 class="text-4xl font-display font-bold text-white">Ready to reclaim your <br> <span class="text-blue-500">Wela?</span></h2></div>
@@ -339,6 +391,22 @@
             <div class="text-center text-xs text-gray-700 mt-8">&copy; 2026 Wela Platform Co., Ltd. All rights reserved.</div>
         </div>
     </footer>
+
+    <div class="fixed bottom-0 left-0 w-full p-4 z-50 lg:hidden bg-gradient-to-t from-black to-transparent pt-10">
+        <a href="pricing.html" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-full shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+            <span>เริ่มต้นใช้งานฟรี</span>
+            <i class="ph-bold ph-arrow-right"></i>
+        </a>
+    </div>
+
+    <button x-data="{ show: false }" 
+            @scroll.window="show = window.pageYOffset > 500" 
+            x-show="show" 
+            x-transition 
+            @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="fixed bottom-24 lg:bottom-6 right-6 z-50 w-12 h-12 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-600/40 flex items-center justify-center transition-all hover:-translate-y-1 active:scale-95" style="display: none;">
+        <i class="ph-bold ph-arrow-up"></i>
+    </button>
 
     <script>
         AOS.init({ once: true, duration: 800 });
