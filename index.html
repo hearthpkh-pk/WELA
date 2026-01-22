@@ -47,13 +47,13 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="selection:bg-blue-500 selection:text-white" x-data="{ scroll: 0 }" @scroll.window="scroll = window.pageYOffset">
+<body class="selection:bg-blue-500 selection:text-white" x-data="{ scroll: 0, mobileMenu: false }" @scroll.window="scroll = window.pageYOffset">
 
     <nav class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent"
-         :class="{ 'bg-dark-bg/80 backdrop-blur-md border-white/10 py-3 md:py-4': scroll > 20, 'py-4 md:py-6 bg-transparent': scroll <= 20 }">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
+         :class="{ 'bg-dark-bg/90 backdrop-blur-md border-white/10 py-3 md:py-4 shadow-lg': scroll > 20, 'py-4 md:py-6 bg-transparent': scroll <= 20 }">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center relative">
             
-            <a href="#" class="flex items-center gap-3 group">
+            <a href="#" class="flex items-center gap-2 md:gap-3 group z-50">
                 <div class="w-8 h-8 md:w-10 md:h-10 overflow-hidden shadow-lg shadow-blue-500/20 rounded-[8px] md:rounded-[10px] group-hover:scale-105 transition-transform">
                     <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
                         <rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/>
@@ -71,82 +71,104 @@
                     <a href="#faq" class="hover:text-white transition-colors">ถาม-ตอบ</a>
                     <a href="pricing.html" class="hover:text-white transition-colors">ราคา</a>
                 </div>
-                <div class="h-6 w-px bg-white/10"></div>
-                <a href="#" class="flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-white transition-colors group">
-                    <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/50 group-hover:bg-white/5 transition-all"><i class="ph-fill ph-play text-xs"></i></div> Watch video
-                </a>
+                
                 <a href="demo.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-600/30 transition-all hover:-translate-y-0.5 active:scale-95">
                     Download App
                 </a>
             </div>
 
-            <div class="md:hidden">
-                <a href="demo.html" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg">
-                    ลองใช้ฟรี
+            <button @click="mobileMenu = !mobileMenu" class="md:hidden text-white p-2 z-50 relative focus:outline-none">
+                <i class="ph-bold text-2xl" :class="mobileMenu ? 'ph-x' : 'ph-list'"></i>
+            </button>
+
+            <div x-show="mobileMenu" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 -translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-4"
+                 class="absolute top-full left-0 w-full bg-dark-bg/95 backdrop-blur-xl border-b border-white/10 p-6 md:hidden flex flex-col gap-4 shadow-2xl z-40">
+                <a href="#features" @click="mobileMenu = false" class="text-slate-300 hover:text-white font-medium py-2 border-b border-white/5">ฟีเจอร์</a>
+                <a href="#social-proof" @click="mobileMenu = false" class="text-slate-300 hover:text-white font-medium py-2 border-b border-white/5">รีวิวลูกค้า</a>
+                <a href="pricing.html" class="text-blue-400 hover:text-blue-300 font-bold py-2 border-b border-white/5 flex justify-between items-center">
+                    ดูแพ็กเกจราคา <i class="ph-bold ph-arrow-right"></i>
+                </a>
+                <a href="#faq" @click="mobileMenu = false" class="text-slate-300 hover:text-white font-medium py-2">ถาม-ตอบ</a>
+                <a href="demo.html" class="bg-blue-600 text-white py-3 rounded-xl text-center font-bold shadow-lg mt-2">
+                    ทดลองใช้งานฟรี
                 </a>
             </div>
         </div>
     </nav>
 
-    <header class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-20">
+    <header class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-10">
         <div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none select-none z-0">
-            <svg viewBox="0 0 100 50" class="w-[180vw] h-[180vw] md:w-[80vw] md:h-[40vw]">
-                <path d="M0 25 L20 25 L35 45 L50 5 L65 45 L80 25 L100 25" fill="none" stroke="url(#grad1)" stroke-width="0.5" class="w-stroke"/>
+            <svg viewBox="0 0 100 50" class="w-[150vw] h-[150vw] md:w-[80vw] md:h-[40vw]">
+                <path d="M0 25 L20 25 L35 45 L50 5 L65 45 L80 25 L100 25" fill="none" stroke="url(#grad1)" stroke-width="0.3" class="w-stroke"/>
                 <defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0" /><stop offset="50%" style="stop-color:#3B82F6;stop-opacity:1" /><stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0" /></linearGradient></defs>
             </svg>
         </div>
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+
+        <div class="relative z-10 text-center px-4 max-w-sm md:max-w-6xl mx-auto">
+            
             <div data-aos="fade-down" data-aos-duration="1000">
-                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 md:mb-6 backdrop-blur-md">The Future of HR</span>
+                <span class="inline-block py-1.5 px-4 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase mb-6 md:mb-10 backdrop-blur-md">
+                    THE FUTURE OF HR
+                </span>
             </div>
-            <h1 class="font-display text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-none mb-4 md:mb-6" data-aos="zoom-out" data-aos-duration="1200">
+            
+            <h1 class="font-display text-7xl md:text-9xl lg:text-[11rem] font-bold tracking-tighter leading-none mb-6 md:mb-10" data-aos="zoom-out" data-aos-duration="1200">
                 <span class="text-white">We</span><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">la</span>
             </h1>
-            <p class="font-light text-lg md:text-2xl text-gray-400 max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed px-2" data-aos="fade-up" data-aos-delay="200">
-                ไม่ใช่แค่แอปตอกบัตร... แต่มันคือ <span class="text-white font-medium">Time Machine</span><br class="hidden md:inline"> ที่จะคืนเวลาอันมีค่า ให้ธุรกิจของคุณ
-            </p>
             
-            <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center px-4" data-aos="fade-up" data-aos-delay="400">
-                <a href="demo.html" class="w-full sm:w-auto group relative px-8 py-3.5 md:py-4 bg-white text-black rounded-full font-bold text-base md:text-lg hover:bg-gray-100 transition-all active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] overflow-hidden inline-flex items-center justify-center gap-2">
-                    <span class="relative z-10 flex items-center gap-2">
-                        ทดลองใช้ฟรี
-                        <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </span>
+            <p class="font-light text-base md:text-2xl text-slate-400 w-full max-w-lg md:max-w-3xl mx-auto mb-10 md:mb-14 leading-relaxed px-4" data-aos="fade-up" data-aos-delay="200">
+    		ระบบที่หละหลวม คือการทำร้ายคนขยัน... <br class="hidden md:inline">
+    		ให้ <span class="text-white font-bold">Wela</span> ช่วยดูแล <span class="text-white font-bold">'เวลา'</span> และจัดการ <span class="text-white font-bold">'ปัญหา'</span> แทนคุณ
+	        </p>
+            
+            <div class="flex flex-row justify-center items-center gap-3 sm:gap-6 w-full" data-aos="fade-up" data-aos-delay="400">
+                
+                <a href="demo.html" class="flex-1 sm:flex-none px-5 py-3 md:px-10 md:py-4 bg-white text-black rounded-full font-bold text-sm md:text-xl hover:bg-gray-100 transition-all active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span>เริ่มใช้งานฟรี</span>
+                    <i class="ph-bold ph-arrow-right"></i>
                 </a>
-                <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group text-sm md:text-lg justify-center sm:justify-start">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-700 flex items-center justify-center group-hover:border-white/50 group-hover:bg-white/10 transition-all">
-                        <i class="ph-fill ph-play text-base md:text-xl"></i>
+                
+                <a href="#" class="flex-none flex items-center gap-2 text-slate-400 hover:text-white transition-colors group text-sm md:text-xl py-2 px-2">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-slate-700 flex items-center justify-center group-hover:border-white/50 group-hover:bg-white/10 transition-all shrink-0">
+                        <i class="ph-fill ph-play text-sm md:text-xl"></i>
                     </div>
-                    <span class="font-medium">Watch the video</span>
+                    <span class="whitespace-nowrap">Watch video</span>
                 </a>
             </div>
         </div>
-        <div class="absolute bottom-0 w-full h-32 bg-gradient-to-t from-dark-bg to-transparent z-20"></div>
+        
+        <div class="absolute bottom-0 w-full h-32 md:h-48 bg-gradient-to-t from-dark-bg to-transparent z-20"></div>
     </header>
 
     <section id="comparison" class="py-16 md:py-24 bg-dark-bg relative z-20 border-t border-white/5">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
             <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
-                <h2 class="text-3xl md:text-5xl font-display font-bold mb-3 md:mb-4">หยุดการทำงานแบบ <span class="text-slate-500 line-through decoration-red-500 decoration-4">ยุคหิน</span></h2>
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-3 md:mb-4">หยุดการทำงานแบบ <span class="text-slate-500 line-through decoration-blue-500 decoration-4">ยุคหิน</span></h2>
                 <p class="text-slate-400 text-base md:text-lg">Wela ช่วยปิดรูรั่วของร้านคุณได้อย่างไร?</p>
             </div>
             <div class="glass-card rounded-2xl md:rounded-3xl overflow-hidden relative" data-aos="zoom-in">
                 <div class="grid md:grid-cols-2 relative">
                     <div class="hidden md:block absolute top-10 bottom-10 left-1/2 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent z-20"></div>
                     
-                    <div class="p-6 md:p-12 bg-red-500/5 relative border-b md:border-b-0 border-white/5">
+                    <div class="p-6 md:p-12 bg-white/5 relative border-b md:border-b-0 border-white/5">
                         <div class="flex items-center gap-4 mb-6 md:mb-8">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-red-500/10 text-red-500 rounded-xl flex items-center justify-center text-xl md:text-2xl"><i class="ph-fill ph-warning-circle"></i></div>
-                            <div><h3 class="text-lg md:text-xl font-bold text-white">แบบเดิมๆ</h3><p class="text-red-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">The Chaos</p></div>
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-700/50 text-slate-300 rounded-xl flex items-center justify-center text-xl md:text-2xl"><i class="ph-fill ph-warning-circle"></i></div>
+                            <div><h3 class="text-lg md:text-xl font-bold text-white">แบบเดิมๆ</h3><p class="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-wider">The Chaos</p></div>
                         </div>
                         <ul class="space-y-6 md:space-y-8">
-                            <li class="flex gap-3 md:gap-4 items-start"><i class="ph-bold ph-x-circle text-red-500 text-lg md:text-xl mt-1 shrink-0"></i><div><strong class="text-white block mb-0.5 text-sm md:text-base">จ่ายเงินให้ "เวลาทิพย์"</strong><span class="text-slate-400 text-xs md:text-sm leading-relaxed block">เพื่อนตอกบัตรแทน หรือแอบลงเวลา</span></div></li>
-                            <li class="flex gap-3 md:gap-4 items-start"><i class="ph-bold ph-x-circle text-red-500 text-lg md:text-xl mt-1 shrink-0"></i><div><strong class="text-white block mb-0.5 text-sm md:text-base">นรกของการคำนวณเงินเดือน</strong><span class="text-slate-400 text-xs md:text-sm leading-relaxed block">นั่งบวก OT ผิดๆ ถูกๆ ลืมหักสาย เสียเวลาเป็นวันๆ</span></div></li>
-                            <li class="flex gap-3 md:gap-4 items-start"><i class="ph-bold ph-x-circle text-red-500 text-lg md:text-xl mt-1 shrink-0"></i><div><strong class="text-white block mb-0.5 text-sm md:text-base">ดราม่า "หนูบอกพี่แล้ว"</strong><span class="text-slate-400 text-xs md:text-sm leading-relaxed block">ขอลาผ่านไลน์ ข้อความจม หาหลักฐานไม่เจอ</span></div></li>
+                            <li class="flex gap-3 md:gap-4 items-start"><i class="ph-bold ph-x-circle text-slate-500 text-lg md:text-xl mt-1 shrink-0"></i><div><strong class="text-white block mb-0.5 text-sm md:text-base">จ่ายเงินให้ "เวลาทิพย์"</strong><span class="text-slate-400 text-xs md:text-sm leading-relaxed block">เพื่อนตอกบัตรแทน หรือแอบลงเวลา</span></div></li>
+                            <li class="flex gap-3 md:gap-4 items-start"><i class="ph-bold ph-x-circle text-slate-500 text-lg md:text-xl mt-1 shrink-0"></i><div><strong class="text-white block mb-0.5 text-sm md:text-base">นรกของการคำนวณเงินเดือน</strong><span class="text-slate-400 text-xs md:text-sm leading-relaxed block">นั่งบวก OT ผิดๆ ถูกๆ ลืมหักสาย เสียเวลาเป็นวันๆ</span></div></li>
+                            <li class="flex gap-3 md:gap-4 items-start"><i class="ph-bold ph-x-circle text-slate-500 text-lg md:text-xl mt-1 shrink-0"></i><div><strong class="text-white block mb-0.5 text-sm md:text-base">ดราม่า "หนูบอกพี่แล้ว"</strong><span class="text-slate-400 text-xs md:text-sm leading-relaxed block">ขอลาผ่านไลน์ ข้อความจม หาหลักฐานไม่เจอ</span></div></li>
                         </ul>
                     </div>
 
-                    <div class="p-6 md:p-12 bg-blue-500/5 relative">
+                    <div class="p-6 md:p-12 bg-blue-600/10 relative">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none"></div>
                         <div class="flex items-center gap-4 mb-6 md:mb-8 relative z-10">
                             <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl shadow-lg overflow-hidden rounded-[10px]"><svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full"><rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/><path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -168,19 +190,19 @@
         <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
             <div class="text-center mb-10 md:mb-12"><p class="text-slate-500 text-xs md:text-sm font-semibold tracking-widest uppercase mb-2">Trusted by 500+ Businesses</p><h2 class="text-2xl md:text-3xl font-bold text-white">ธุรกิจที่เติบโต เลือกใช้ Wela</h2></div>
             
-            <div class="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0 md:mx-0 md:px-0 hide-scrollbar items-stretch">
+            <div class="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-6 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0 md:mx-0 md:px-0 hide-scrollbar items-stretch">
                 
-                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="0">
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 min-w-[280px] max-w-[320px] md:max-w-none md:min-w-0 snap-center flex-shrink-0 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="0">
                     <div class="flex items-center gap-4 mb-4 md:mb-6"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=100&q=80" alt="Khun Nont" class="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-white/10"><div><h4 class="text-white font-bold text-sm md:text-base">คุณนนท์ (Khun Nont)</h4><p class="text-blue-400 text-xs font-medium">Owner, Craft Beer & Cafe</p></div></div>
                     <p class="text-slate-300 text-xs md:text-sm leading-relaxed italic">"เมื่อก่อนของหายบ่อย พนักงานแอบเปิดเหล้ากินเอง พอใช้ Wela แล้วจบปัญหาเลย รู้หมดใครเข้าออกตอนไหน เอาเวลาไปคิดเมนูใหม่ดีกว่า"</p>
                 </div>
                 
-                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 min-w-[280px] max-w-[320px] md:max-w-none md:min-w-0 snap-center flex-shrink-0 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="100">
                     <div class="flex items-center gap-4 mb-4 md:mb-6"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" alt="Dr. Praew" class="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-white/10"><div><h4 class="text-white font-bold text-sm md:text-base">คุณแพรว (Dr. Praew)</h4><p class="text-purple-400 text-xs font-medium">Owner, Aesthetic Clinic</p></div></div>
                     <p class="text-slate-300 text-xs md:text-sm leading-relaxed italic">"คลินิกมีพนักงานหลายกะ สลับเวรกันวุ่นวายมาก แต่ Wela ช่วยจัดการตารางเวรให้อัตโนมัติ สะดวกมากค่ะ"</p>
                 </div>
                 
-                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 min-w-[280px] max-w-[320px] md:max-w-none md:min-w-0 snap-center flex-shrink-0 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="200">
                     <div class="flex items-center gap-4 mb-4 md:mb-6"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Khun Tee" class="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-white/10"><div><h4 class="text-white font-bold text-sm md:text-base">คุณตี๋ (Khun Tee)</h4><p class="text-green-400 text-xs font-medium">MD, Logistics SME</p></div></div>
                     <p class="text-slate-300 text-xs md:text-sm leading-relaxed italic">"พนักงานขับรถต้องออกนอกสถานที่ตลอด ใช้ GPS Check-in ของ Wela ทำให้มั่นใจว่าเขาไปส่งของลูกค้าจริง ไม่ได้แอบอู้งาน"</p>
                 </div>
@@ -286,20 +308,6 @@
         </div>
     </section>
 
-    <section class="py-16 md:py-24 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-dark-bg to-blue-900/20"></div>
-        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
-        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center" data-aos="zoom-in">
-            <h2 class="text-3xl md:text-6xl font-display font-bold mb-4 md:mb-6 leading-tight">พร้อมเปลี่ยนร้านให้ <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Smart</span> <br>และคืนเวลาให้ชีวิตหรือยัง?</h2>
-            <p class="text-lg md:text-xl text-slate-400 mb-8 md:mb-10 font-light max-w-2xl mx-auto">เข้าร่วมกับเจ้าของธุรกิจกว่า 500+ แห่ง ที่เลิกปวดหัวเรื่องคน และเอาเวลาไปโฟกัสกับการเติบโต</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 md:gap-6 items-center">
-                <a href="demo.html" class="w-full sm:w-auto group relative px-10 py-4 md:py-5 bg-white text-black rounded-full font-bold text-lg md:text-xl hover:bg-gray-100 transition-all active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] overflow-hidden flex items-center justify-center gap-3"><span class="relative z-10">เริ่มต้นใช้งานฟรี 30 วัน</span><i class="ph-bold ph-arrow-right relative z-10 group-hover:translate-x-1 transition-transform"></i></a>
-                <a href="https://line.me/R/ti/p/@wela_hr" target="_blank" class="text-slate-400 hover:text-white font-medium flex items-center gap-2 transition-colors text-sm md:text-base"><i class="ph-fill ph-chat-circle-dots text-lg md:text-xl"></i> คุยกับทีมงาน Support</a>
-            </div>
-            <p class="mt-6 md:mt-8 text-xs text-slate-600">*ไม่ต้องใช้บัตรเครดิต • ยกเลิกได้ตลอดเวลา • ติดตั้งง่ายใน 5 นาที</p>
-        </div>
-    </section>
-
     <footer class="bg-black border-t border-white/10 pt-16 md:pt-20 pb-10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 md:mb-12">
@@ -310,7 +318,7 @@
         </div>
     </footer>
 
-    <div x-data="{ show: true }" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0" class="fixed bottom-0 left-0 w-full z-50 p-4 md:p-6"><div class="max-w-7xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 p-4 md:p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4"><div class="flex items-start gap-4"><div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600/20 text-blue-400 rounded-full flex items-center justify-center text-lg md:text-xl shrink-0"><i class="ph-fill ph-cookie"></i></div><div><h4 class="text-white font-bold text-sm">เราใส่ใจความเป็นส่วนตัวของคุณ</h4><p class="text-slate-300 text-xs mt-1">เว็บไซต์นี้ใช้คุกกี้เพื่อมอบประสบการณ์ที่ดีที่สุด <a href="#" class="text-blue-400 hover:underline">นโยบายความเป็นส่วนตัว</a></p></div></div><div class="flex gap-3 w-full md:w-auto"><button @click="show = false" class="flex-1 md:flex-none px-4 md:px-6 py-2 md:py-2.5 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-colors border border-white/10">ตั้งค่า</button><button @click="show = false" class="flex-1 md:flex-none px-4 md:px-6 py-2 md:py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-blue-600/20 transition-all transform active:scale-95">ยอมรับทั้งหมด</button></div></div></div>
+    <div x-data="{ show: true }" x-show="show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0" class="fixed bottom-0 left-0 w-full z-50 p-4 md:p-6"><div class="max-w-7xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 p-4 md:p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4"><div class="flex items-start gap-4"><div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600/20 text-blue-400 rounded-full flex items-center justify-center text-lg md:text-xl shrink-0"><i class="ph-fill ph-cookie"></i></div><div><h4 class="text-white font-bold text-sm">เราใส่ใจความเป็นส่วนตัวของคุณ</h4><p class="text-slate-300 text-xs mt-1">เว็บไซต์นี้ใช้คุกกี้เพื่อมอบประสบการณ์ที่ดีที่สุด <a href="#" class="text-blue-400 hover:underline">นโยบายความเป็นส่วนตัว</a></p></div></div><div class="flex gap-3 w-full md:w-auto"><button @click="show = false" class="flex-1 md:flex-none px-4 md:px-6 py-2 md:py-2.5 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-colors border border-white/10">ตั้งค่า</button><button @click="show = false" class="flex-1 md:flex-none px-4 md:px-6 py-2 md:py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-blue-600/20 transition-all transform active:scale-95">ยอมรับ</button></div></div></div>
     <button x-data="{ show: false }" @scroll.window="show = window.pageYOffset > 500" x-show="show" x-transition @click="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 z-40 w-10 h-10 md:w-12 md:h-12 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-600/40 flex items-center justify-center transition-all hover:-translate-y-1 active:scale-95"><i class="ph-bold ph-arrow-up text-lg md:text-xl"></i></button>
 
     <script>AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });</script>
