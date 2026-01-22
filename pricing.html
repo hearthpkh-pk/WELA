@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wela - ราคาแพ็กเกจที่คุ้มค่าที่สุด</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22white%22/><path d=%22M15 20 L30 80 L45 40%22 fill=%22none%22 stroke=%22%232563EB%22 stroke-width=%2212%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/><path d=%22M45 40 L60 80 L85 20%22 fill=%22none%22 stroke=%22%2310B981%22 stroke-width=%2212%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;900&family=Noto+Sans+Thai:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'Noto Sans Thai', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+                    colors: { dark: { bg: '#050507', card: '#0F0F12', border: '#1E1E24' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050507; color: #E2E2E2; overflow-x: hidden; }
+        .glass-card { background: rgba(20, 20, 25, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-top: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); }
+        
+        .hover-border-green:hover { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+        .hover-border-blue:hover { border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+        .hover-border-purple:hover { border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); }
+
+        .smart-glow { 
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15); 
+            border-color: rgba(59, 130, 246, 0.6);
+            background: rgba(30, 58, 138, 0.15); 
+        }
+
+        @keyframes float-badge {
+            0%, 100% { transform: translateY(0) rotate(5deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+        }
+        .pop-badge { animation: float-badge 2s ease-in-out infinite; }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <nav class="fixed top-0 w-full z-50 bg-dark-bg/80 backdrop-blur-md border-b border-white/10 py-4">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 overflow-hidden shadow-lg shadow-blue-500/20 rounded-[10px] group-hover:scale-105 transition-transform">
+                    <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full"><rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/><path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="font-display font-bold text-xl tracking-wide text-white">Wela</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-6">
+                <div class="flex gap-6 text-sm font-medium text-gray-400 mr-4">
+                    <a href="index.html#features" class="hover:text-white transition-colors">ฟีเจอร์</a>
+                    <a href="index.html#social-proof" class="hover:text-white transition-colors">รีวิวลูกค้า</a>
+                    <a href="index.html#faq" class="hover:text-white transition-colors">ถาม-ตอบ</a>
+                    <a href="#" class="text-white font-bold">ราคา</a> </div>
+                <div class="h-6 w-px bg-white/10"></div>
+                <a href="demo.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-600/30 transition-all hover:-translate-y-0.5 active:scale-95">Download App</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-28 md:pt-32 pb-24 relative z-10" 
+             x-data="{ 
+                billing: 'monthly', 
+                employees: 20, 
+                showComparison: false,
+                get plan() {
+                    if (this.employees <= 5) return { name: 'Starter', price: 0, color: 'text-slate-400' };
+                    if (this.employees <= 15) return { name: 'Small', price: 390, color: 'text-emerald-400' };
+                    if (this.employees <= 30) return { name: 'Smart', price: 490, color: 'text-blue-400' };
+                    return { name: 'Scale', price: 890, color: 'text-purple-400' };
+                },
+                get total() { return this.billing === 'yearly' ? (this.plan.price * 10).toLocaleString() : this.plan.price.toLocaleString() },
+                get perHead() { return this.plan.price > 0 ? (this.plan.price / this.employees).toFixed(0) : 0 },
+                get progress() { return ((this.employees - 1) / 49 * 100) }
+             }">
+        
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+                <span class="text-blue-400 font-bold tracking-widest text-[10px] md:text-xs uppercase mb-2 block">Investment Plan</span>
+                
+                <h1 class="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-6 leading-tight">
+                    เกลียดวันสิ้นเดือนไหม? <br class="hidden md:block">ที่ต้องนั่งจิ้มเครื่องคิดเลข <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">ยันตี 2</span>
+                </h1>
+                
+                <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed px-2">
+                    จ่ายน้อยกว่า "ค่าแรงพนักงาน 1 วัน" ... แลกกับระบบที่ช่วยคุณ <span class="text-white font-bold">ทำเงินเดือนเสร็จใน 3 นาที</span>
+                </p>
+                
+                <div class="mt-8 md:mt-12 inline-flex bg-white/5 p-1 rounded-full border border-white/10 relative cursor-pointer select-none transform scale-90 md:scale-100">
+                    <div class="absolute -top-4 -right-4 bg-red-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg pop-badge border-2 border-dark-bg z-30 transform rotate-6">
+                        ลด 17% 🔥
+                    </div>
+                    <div class="w-1/2 h-full absolute top-0 bg-blue-600 rounded-full shadow-lg transition-all duration-300" :class="billing === 'monthly' ? 'left-0' : 'left-1/2'"></div>
+                    <button @click="billing = 'monthly'" class="relative z-10 px-6 md:px-8 py-2 md:py-2.5 text-sm font-bold transition-colors w-32 md:w-36" :class="billing === 'monthly' ? 'text-white' : 'text-slate-400'">รายเดือน</button>
+                    <button @click="billing = 'yearly'" class="relative z-10 px-6 md:px-8 py-2 md:py-2.5 text-sm font-bold transition-colors w-32 md:w-36 flex items-center justify-center gap-2" :class="billing === 'yearly' ? 'text-white' : 'text-slate-400'">รายปี</button>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto mb-10 md:mb-20 glass-card p-6 md:p-10 rounded-3xl border border-blue-500/30 shadow-[0_0_50px_rgba(37,99,235,0.1)]" data-aos="zoom-in">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                    <div class="mb-6 md:mb-0 text-center md:text-left">
+                        <label class="text-slate-400 text-xs md:text-sm font-medium uppercase tracking-wider block mb-2">พนักงานของคุณ (คน)</label>
+                        <div class="text-4xl md:text-5xl font-display font-bold text-white"><span x-text="employees"></span> <span class="text-lg md:text-xl text-slate-500 font-normal">คน</span></div>
+                    </div>
+                    <div class="text-center md:text-right flex flex-col items-center md:items-end">
+                        <label class="text-slate-400 text-xs md:text-sm font-medium uppercase tracking-wider block mb-2">
+                            แพ็กเกจที่เหมาะกับคุณ: <span x-text="plan.name" :class="plan.color" class="font-bold"></span>
+                        </label>
+                        <div class="flex items-end justify-center md:justify-end gap-2">
+                            <div class="text-5xl md:text-6xl font-display font-bold text-white" x-text="'฿' + (billing === 'yearly' ? (plan.price * 10 / 12).toFixed(0) : plan.price)"></div>
+                            <div class="text-slate-500 text-sm md:text-base mb-2 md:mb-3">/ เดือน</div>
+                        </div>
+                        
+                        <div class="mt-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-1.5 md:px-4 md:py-2 inline-flex items-center gap-2 transform transition-all" x-show="plan.price > 0" x-transition>
+                             <i class="ph-fill ph-check-circle text-emerald-400 text-base md:text-lg"></i>
+                             <span class="text-emerald-100 text-xs md:text-sm">เฉลี่ยเพียงคนละ <span class="text-emerald-400 font-bold text-lg md:text-xl" x-text="'฿' + perHead"></span> บาท</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative w-full h-14 mb-2 group"> 
+                    <div class="absolute top-2 w-full h-2 bg-slate-800 rounded-full"></div>
+                    <div class="absolute top-2 h-2 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full pointer-events-none" :style="'width: ' + progress + '%'"></div>
+                    <div class="absolute top-0 h-6 w-6 bg-white border-4 border-blue-500 rounded-full z-10 pointer-events-none shadow-lg" :style="'left: ' + progress + '%; transform: translateX(-50%)'"></div>
+                    <input type="range" min="1" max="50" step="1" x-model="employees" class="absolute top-0 w-full h-6 opacity-0 cursor-pointer z-20">
+
+                    <div class="absolute top-8 w-full text-[10px] md:text-xs text-slate-500 font-medium select-none">
+                        <div class="absolute left-0 cursor-pointer p-1" @click="employees = 1">1 คน</div>
+                        <div class="absolute left-[28.57%] transform -translate-x-1/2 flex flex-col items-center cursor-pointer transition-colors duration-200 p-1" :class="employees >= 15 ? 'text-emerald-400' : ''" @click="employees = 15"><div class="w-px h-1 bg-slate-700 mb-1"></div>15 คน</div>
+                        <div class="absolute left-[59.18%] transform -translate-x-1/2 flex flex-col items-center cursor-pointer transition-colors duration-200 p-1" :class="employees >= 30 ? 'text-blue-400' : ''" @click="employees = 30"><div class="w-px h-1 bg-slate-700 mb-1"></div>30 คน</div>
+                        <div class="absolute right-0 cursor-pointer transition-colors duration-200 p-1" :class="employees >= 50 ? 'text-purple-400' : ''" @click="employees = 50">50 คน</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-6 px-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-4 md:overflow-visible md:pb-0 md:mx-0 md:px-0 hide-scrollbar items-stretch">
+                
+                <div class="glass-card p-6 md:p-6 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0" 
+                     :class="plan.name === 'Starter' ? 'border-white/40 bg-white/5' : 'opacity-60 grayscale hover:grayscale-0 hover:opacity-100'">
+                    <div class="mb-auto">
+                        <h3 class="text-sm font-bold text-slate-400 mb-1 uppercase tracking-wider">Starter</h3>
+                        <div class="text-3xl font-display font-bold text-white mb-2">ฟรี</div>
+                        <p class="text-xs text-slate-500 mb-6 min-h-[40px]">เลิกใช้สมุดจด<br>มาใช้ระบบดิจิทัลฟรีๆ</p>
+                        <ul class="space-y-3 text-xs text-slate-400 mb-6">
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-slate-500 mt-0.5"></i> <span>ลงเวลา (GPS)</span></li>
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-slate-500 mt-0.5"></i> <span>ดูประวัติย้อนหลัง 7 วัน</span></li>
+                        </ul>
+                    </div>
+                    <a href="demo.html" class="block w-full py-2.5 rounded-lg border border-white/20 text-center text-sm text-white font-bold hover:bg-white/5 transition-colors">เริ่มใช้งานฟรี</a>
+                </div>
+
+                <div class="glass-card p-6 md:p-6 rounded-2xl border border-white/10 hover-border-green transition-all duration-300 flex flex-col min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0"
+                     :class="plan.name === 'Small' ? 'border-emerald-500/50 bg-emerald-900/10 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : ''">
+                    <div class="mb-auto">
+                        <h3 class="text-sm font-bold text-emerald-400 mb-1 uppercase tracking-wider">Small</h3>
+                        <div class="flex items-end gap-1 mb-2">
+                            <span class="text-3xl font-display font-bold text-white">฿390</span>
+                            <span class="text-slate-500 text-[10px] mb-1.5">/ ร้าน / เดือน</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-6 min-h-[40px]">หมดปัญหาสลับกะ<br>ใบลากองเต็มโต๊ะ</p>
+                        <ul class="space-y-3 text-xs text-slate-300 mb-6">
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-emerald-500 mt-0.5"></i> <span>ลงเวลา + รูปถ่าย (กันโกง)</span></li>
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-emerald-500 mt-0.5"></i> <span>จัดกะงาน (Shift)</span></li>
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-emerald-500 mt-0.5"></i> <span>อนุมัติวันลาผ่านมือถือ</span></li>
+                        </ul>
+                    </div>
+                    <a href="demo.html" class="block w-full py-2.5 rounded-lg border border-white/20 text-center text-sm text-slate-300 font-bold hover:bg-white/5 transition-all">เลือกแพ็กเกจนี้</a>
+                </div>
+
+                <div class="glass-card p-6 md:p-6 rounded-2xl relative transform lg:-translate-y-2 flex flex-col z-20 transition-all duration-300 min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0"
+                     :class="plan.name === 'Smart' ? 'smart-glow' : 'border border-blue-500/30 hover-border-blue'">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white text-[9px] font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">BEST VALUE</div>
+                    <div class="mb-auto">
+                        <h3 class="text-sm font-bold text-blue-400 mb-1 uppercase tracking-wider">Smart</h3>
+                        <div class="flex items-end gap-1 mb-2">
+                            <span class="text-4xl font-display font-bold text-white">฿490</span>
+                            <span class="text-slate-400 text-[10px] mb-1.5">/ ร้าน / เดือน</span>
+                        </div>
+                        <p class="text-xs text-blue-200 mb-6 min-h-[40px]">ทวงคืนเวลาชีวิตของคุณ<br>เรื่องเงินเดือน..ให้เราทำแทน</p>
+                        <div class="h-px w-full bg-blue-500/30 mb-6"></div>
+                        <ul class="space-y-3 text-xs text-white mb-6">
+                            <li class="flex gap-2 items-start"><div class="w-4 h-4 rounded bg-blue-500 flex items-center justify-center text-[8px] mt-0.5 shrink-0"><i class="ph-bold ph-check"></i></div> <span><strong>ทุกฟีเจอร์ใน Small</strong></span></li>
+                            <li class="flex gap-2 items-start"><div class="w-4 h-4 rounded bg-blue-500 flex items-center justify-center text-[8px] mt-0.5 shrink-0"><i class="ph-bold ph-check"></i></div> <span><strong>คำนวณเงินเดือน & OT เป๊ะ!</strong></span></li>
+                            <li class="flex gap-2 items-start"><div class="w-4 h-4 rounded bg-blue-500 flex items-center justify-center text-[8px] mt-0.5 shrink-0"><i class="ph-bold ph-check"></i></div> <span><strong>หักภาษี/ประกันสังคม</strong></span></li>
+                            <li class="flex gap-2 items-start"><div class="w-4 h-4 rounded bg-blue-500 flex items-center justify-center text-[8px] mt-0.5 shrink-0"><i class="ph-bold ph-check"></i></div> <span><strong>ไฟล์ส่งธนาคาร (1-Click)</strong></span></li>
+                        </ul>
+                    </div>
+                    <a href="demo.html" class="block w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-center text-sm text-white font-bold transition-all shadow-lg shadow-blue-600/30">ทดลองใช้ฟรี 30 วัน</a>
+                </div>
+
+                <div class="glass-card p-6 md:p-6 rounded-2xl border border-white/10 hover-border-purple transition-all duration-300 flex flex-col min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center flex-shrink-0"
+                     :class="plan.name === 'Scale' ? 'border-purple-500 bg-purple-900/10 shadow-[0_0_20px_rgba(168,85,247,0.1)]' : ''">
+                    <div class="mb-auto">
+                        <h3 class="text-sm font-bold text-purple-300 mb-1 uppercase tracking-wider">Scale</h3>
+                        <div class="flex items-end gap-1 mb-2">
+                            <span class="text-3xl font-display font-bold text-white">฿890</span>
+                            <span class="text-slate-500 text-[10px] mb-1.5">/ ร้าน / เดือน</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-6 min-h-[40px]">ร้านเริ่มโต..คนเริ่มเยอะ<br>ให้เราช่วยดูแลความเรียบร้อย</p>
+                        <ul class="space-y-3 text-xs text-slate-300 mb-6">
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-purple-500 mt-0.5"></i> <span><strong>รองรับสูงสุด 50 คน</strong></span></li>
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-purple-500 mt-0.5"></i> <span>ดูภาพรวมหลายสาขา (Multi)</span></li>
+                            <li class="flex gap-2 items-start"><i class="ph-fill ph-check text-purple-500 mt-0.5"></i> <span>Priority Support (ติดต่อง่าย)</span></li>
+                        </ul>
+                    </div>
+                    <a href="https://line.me/R/ti/p/@wela_hr" target="_blank" class="block w-full py-2.5 rounded-lg border border-white/20 hover:bg-purple-600/20 hover:border-purple-500/50 text-center text-sm text-white font-bold transition-colors">ติดต่อฝ่ายขาย</a>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-10 md:mt-16" data-aos="fade-up">
+                <button @click="showComparison = !showComparison" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors border-b border-dashed border-slate-600 hover:border-white pb-1 text-sm md:text-base">
+                    <span x-text="showComparison ? 'ซ่อนรายละเอียดเปรียบเทียบ' : 'ดูเปรียบเทียบฟีเจอร์ทั้งหมดแบบละเอียด'"></span>
+                    <i class="ph-bold ph-caret-down transition-transform duration-300" :class="showComparison ? 'rotate-180' : ''"></i>
+                </button>
+            </div>
+
+            <div x-show="showComparison" x-collapse>
+                <div class="mt-8 md:mt-12 overflow-x-auto pb-4 pt-6 hide-scrollbar">
+                    <table class="w-full min-w-[800px] border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-white/10">
+                                <th class="p-4 text-left text-slate-400 w-1/4">ฟีเจอร์การใช้งาน</th>
+                                <th class="p-4 text-center text-slate-400 w-1/6">Starter</th>
+                                <th class="p-4 text-center text-emerald-400 w-1/6">Small</th>
+                                <th class="p-4 text-center text-white bg-blue-600/20 rounded-t-xl w-1/6 border-t border-x border-blue-500/30 relative">
+                                    Smart
+                                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-[9px] px-2 py-0.5 rounded text-white shadow-lg whitespace-nowrap">แนะนำ</span>
+                                </th>
+                                <th class="p-4 text-center text-purple-400 w-1/6">Scale</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            
+                            <tr class="bg-white/5"><td colspan="5" class="p-3 pl-4 font-bold text-white text-xs uppercase tracking-widest">ระบบลงเวลา (Time Attendance)</td></tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">ลงเวลาผ่าน GPS (มือถือ)</td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">ถ่ายรูปยืนยันตัวตน (Face Verify)</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+                             <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">จัดการกะงาน (Shift Management)</td>
+                                <td class="p-4 text-center text-slate-600">พื้นฐาน</td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+
+                            <tr class="bg-white/5"><td colspan="5" class="p-3 pl-4 font-bold text-white text-xs uppercase tracking-widest">การลา & เอกสาร</td></tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">ขอลางานผ่านแอป</td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">ขอ OT / ขอสลับกะ</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+
+                            <tr class="bg-white/5"><td colspan="5" class="p-3 pl-4 font-bold text-white text-xs uppercase tracking-widest">ระบบเงินเดือน (Payroll)</td></tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">คำนวณเงินเดือนอัตโนมัติ</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-green-400 text-xl"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-green-400 text-xl"></i></td>
+                            </tr>
+                             <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">คำนวณหัก มาสาย/ขาดงาน</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td class="p-4">ออกไฟล์ส่งธนาคาร (Bank File)</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center text-slate-600">-</td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                                <td class="p-4 text-center"><i class="ph-fill ph-check-circle text-blue-500"></i></td>
+                            </tr>
+                            
+                             <tr class="bg-white/5"><td colspan="5" class="p-3 pl-4 font-bold text-white text-xs uppercase tracking-widest">การดูแล (Support)</td></tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="p-4">ช่องทางติดต่อ</td>
+                                <td class="p-4 text-center text-xs text-slate-500">Email</td>
+                                <td class="p-4 text-center text-xs text-slate-400">Chat (Office Hour)</td>
+                                <td class="p-4 text-center bg-blue-600/10 border-x border-blue-500/10 text-xs text-white font-bold">Line OA (Fast)</td>
+                                <td class="p-4 text-center text-xs text-purple-400 font-bold">Priority Support 24/7</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="p-4"></td>
+                                <td class="p-4"><a href="demo.html" class="block w-full py-2 rounded border border-white/20 text-center text-xs text-slate-400 hover:text-white hover:bg-white/10">เลือก</a></td>
+                                <td class="p-4"><a href="demo.html" class="block w-full py-2 rounded border border-emerald-500/30 text-center text-xs text-emerald-400 hover:bg-emerald-500/10">เลือก</a></td>
+                                <td class="p-4 bg-blue-600/10 border-x border-b border-blue-500/10 rounded-b-xl"><a href="demo.html" class="block w-full py-2 rounded bg-blue-600 hover:bg-blue-500 text-center text-xs text-white font-bold shadow-lg shadow-blue-600/20">เลือก Smart</a></td>
+                                <td class="p-4"><a href="https://line.me/R/ti/p/@wela_hr" class="block w-full py-2 rounded border border-purple-500/30 text-center text-xs text-purple-400 hover:bg-purple-500/10">ติดต่อ</a></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="social-proof" class="py-16 md:py-20 border-t border-white/5 bg-white/5 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[200px] bg-blue-500/10 blur-[80px] rounded-full pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-10 md:mb-12"><p class="text-slate-500 text-sm font-semibold tracking-widest uppercase mb-2">Trusted by 500+ Businesses</p><h2 class="text-2xl md:text-3xl font-bold text-white">ธุรกิจที่เติบโต เลือกใช้ Wela</h2></div>
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center gap-4 mb-6"><div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl">🍺</div><div><h4 class="text-white font-bold">คุณนนท์ (Khun Nont)</h4><p class="text-blue-400 text-xs font-medium">Owner, Craft Beer & Cafe</p></div></div>
+                    <p class="text-slate-300 text-sm leading-relaxed italic">"เมื่อก่อนของหายบ่อย พนักงานแอบเปิดเหล้ากินเอง พอใช้ Wela แล้วจบปัญหาเลย รู้หมดใครเข้าออกตอนไหน เอาเวลาไปคิดเมนูใหม่ดีกว่า"</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-4 mb-6"><div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl">👩‍⚕️</div><div><h4 class="text-white font-bold">คุณแพรว (Dr. Praew)</h4><p class="text-purple-400 text-xs font-medium">Owner, Aesthetic Clinic</p></div></div>
+                    <p class="text-slate-300 text-sm leading-relaxed italic">"คลินิกมีพนักงานหลายกะ สลับเวรกันวุ่นวายมาก แต่ Wela ช่วยจัดการตารางเวรให้อัตโนมัติ สะดวกมากค่ะ"</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-4 mb-6"><div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-2xl">🚛</div><div><h4 class="text-white font-bold">คุณตี๋ (Khun Tee)</h4><p class="text-green-400 text-xs font-medium">MD, Logistics SME</p></div></div>
+                    <p class="text-slate-300 text-sm leading-relaxed italic">"พนักงานขับรถต้องออกนอกสถานที่ตลอด ใช้ GPS Check-in ของ Wela ทำให้มั่นใจว่าเขาไปส่งของลูกค้าจริง ไม่ได้แอบอู้งาน"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black border-t border-white/10 pt-16 md:pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center mb-12">
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white">
+                    Ready to reclaim your <br> <span class="text-blue-500">Wela?</span>
+                </h2>
+            </div>
+            <div class="flex gap-4">
+                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-blue-600 transition-all"><i class="ph-fill ph-facebook-logo text-2xl"></i></a>
+                <a href="https://line.me/R/ti/p/@wela_hr" target="_blank" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-green-500 transition-all"><i class="ph-fill ph-chat-circle-dots text-2xl"></i></a>
+            </div>
+        </div>
+        <div class="text-center text-xs text-gray-700 mt-8">&copy; 2026 Wela Platform Co., Ltd.</div>
+    </footer>
+
+    <script>AOS.init({ once: true, duration: 800 });</script>
+</body>
+</html>
