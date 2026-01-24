@@ -57,28 +57,41 @@
 
     <nav class="fixed top-0 w-full z-50 bg-dark-bg/95 backdrop-blur-md border-b border-white/10 py-4">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            
             <a href="index.html" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 rounded-[10px] overflow-hidden shadow-lg bg-white p-1 group-hover:scale-105 transition-transform">
                     <svg viewBox="-20 -20 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full"><rect x="-20" y="-20" width="140" height="140" rx="30" fill="white"/><path d="M15 20 L30 80 L45 40" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 40 L60 80 L85 20" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
                 <span class="font-display font-bold text-xl tracking-wide text-white">Wela</span>
             </a>
+
             <div class="hidden md:flex items-center gap-8">
                 <div class="flex items-center gap-6 text-sm font-medium">
-                    <a href="#problems" class="text-slate-400 hover:text-white transition-colors">วิธีแก้ปัญหา</a>
-                    <a href="#pricing" class="text-white relative group">ราคา<span class="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-500 rounded-full"></span></a>
-                    <a href="#comparison" class="text-slate-400 hover:text-white transition-colors">เปรียบเทียบ</a>
+                    <a href="index.html" class="text-slate-400 hover:text-white transition-colors">ฟีเจอร์</a>
+                    
+                    <a href="#" class="text-white relative group">
+                        ราคา
+                        <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-500 rounded-full"></span>
+                    </a>
+                    
+                    <a href="#faq" class="text-slate-400 hover:text-white transition-colors">คำถามที่พบบ่อย</a>
                 </div>
-                <a href="demo.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg shadow-blue-600/30">ทดลองใช้ฟรี</a>
+                
+                <a href="demo.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg shadow-blue-600/30">
+                    ทดลองใช้ฟรี
+                </a>
             </div>
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white p-2"><i class="ph-bold ph-list text-2xl"></i></button>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white p-2">
+                <i class="ph-bold ph-list text-2xl"></i>
+            </button>
         </div>
         
         <div x-show="mobileMenuOpen" x-collapse class="absolute top-full left-0 w-full px-4 pb-4 md:hidden bg-dark-bg border-b border-white/10 shadow-2xl">
             <div class="flex flex-col gap-2 mt-2">
-                <a href="#problems" @click="mobileMenuOpen = false" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">วิธีแก้ปัญหา</a>
-                <a href="#pricing" @click="mobileMenuOpen = false" class="p-3 rounded-xl bg-white/10 text-white font-bold flex justify-between items-center">ราคา <i class="ph-bold ph-caret-right"></i></a>
-                <a href="#comparison" @click="mobileMenuOpen = false" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">เปรียบเทียบ</a>
+                <a href="index.html" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">ฟีเจอร์</a>
+                <a href="#" @click="mobileMenuOpen = false" class="p-3 rounded-xl bg-white/10 text-white font-bold flex justify-between items-center">ราคา <i class="ph-bold ph-caret-right"></i></a>
+                <a href="#faq" @click="mobileMenuOpen = false" class="p-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">คำถามที่พบบ่อย</a>
                 <div class="h-px bg-white/10 my-1"></div>
                 <a href="demo.html" class="p-3 rounded-xl bg-blue-600 text-white font-bold text-center">ทดลองใช้ฟรี</a>
             </div>
@@ -218,7 +231,7 @@
                             <span class="text-gray-500 text-xs">/เดือน</span>
                         </div>
                         <p class="text-xs text-emerald-400 mt-2 font-medium">✅ เริ่มต้น 10 คน</p>
-                        <div class="mt-1 text-[11px] text-gray-400">เฉลี่ย <span x-text="Math.round(calculatePrice('Start') / employees)"></span> บ./คน</div>
+                        <div class="mt-1 text-[11px] text-gray-400">เฉลี่ย <span x-text="Math.round(calculatePrice('Start') / (employees > 10 ? employees : 10))"></span> บ./คน</div>
                     </div>
                     <ul class="space-y-3 text-xs text-gray-400 mb-8 flex-grow">
                         <li class="flex items-start"><i class="ph-fill ph-map-pin text-emerald-500 text-sm mr-2 mt-0.5"></i> ลงเวลา (GPS)</li>
@@ -229,19 +242,19 @@
                     <a href="demo.html" class="block w-full py-3 text-center rounded-lg border border-white/20 text-white text-sm font-bold hover:bg-white/5 transition-colors">เลือก Start</a>
                 </div>
 
-                <div x-ref="card_Small" class="glass-card rounded-2xl p-5 md:p-6 border-2 border-blue-600 relative overflow-hidden flex flex-col transform md:-translate-y-2 transition-all duration-300 w-full min-w-[280px] max-w-[320px] md:max-w-none md:min-w-0 snap-center" :class="recommendedPlan.name === 'Small' ? 'card-highlight' : 'opacity-100 md:opacity-90 md:hover:opacity-100'">
+                <div x-ref="card_Smooth" class="glass-card rounded-2xl p-5 md:p-6 border-2 border-blue-600 relative overflow-hidden flex flex-col transform md:-translate-y-2 transition-all duration-300 w-full min-w-[280px] max-w-[320px] md:max-w-none md:min-w-0 snap-center" :class="recommendedPlan.name === 'Smooth' ? 'card-highlight' : 'opacity-100 md:opacity-90 md:hover:opacity-100'">
                     <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">แนะนำ</div>
                     <div class="mb-4 pb-4 border-b border-blue-500/20">
-                        <h3 class="text-xl font-bold text-blue-400">Small</h3>
+                        <h3 class="text-xl font-bold text-blue-400">Smooth</h3>
                         <p class="text-xs text-blue-200/70 mt-1">ร้านอาหาร & คาเฟ่</p>
                     </div>
                     <div class="mb-6">
                         <div class="flex items-baseline gap-1">
-                            <span class="text-3xl font-bold text-white tracking-tight" x-text="formatPrice(calculatePrice('Small'))"></span>
+                            <span class="text-3xl font-bold text-white tracking-tight" x-text="formatPrice(calculatePrice('Smooth'))"></span>
                             <span class="text-gray-500 text-xs">/เดือน</span>
                         </div>
                         <p class="text-xs text-blue-400 mt-2 font-medium">✅ เริ่มต้น 20 คน</p>
-                        <div class="mt-1 text-[11px] text-gray-400">เฉลี่ย <span x-text="Math.round(calculatePrice('Small') / employees)"></span> บ./คน</div>
+                        <div class="mt-1 text-[11px] text-gray-400">เฉลี่ย <span x-text="Math.round(calculatePrice('Smooth') / (employees > 20 ? employees : 20))"></span> บ./คน</div>
                     </div>
                     <ul class="space-y-3 text-xs text-gray-300 mb-8 flex-grow">
                         <li class="flex items-start font-semibold text-white"><i class="ph-fill ph-plus-circle text-blue-500 text-sm mr-2 mt-0.5"></i> ทุกฟีเจอร์ใน Start และ...</li>
@@ -266,10 +279,10 @@
                             <span class="text-gray-500 text-xs">/เดือน</span>
                         </div>
                         <p class="text-xs text-purple-400 mt-2 font-medium">✅ เริ่มต้น 40 คน</p>
-                        <div class="mt-1 text-[11px] text-gray-400">เฉลี่ย <span x-text="Math.round(calculatePrice('Smart') / employees)"></span> บ./คน</div>
+                        <div class="mt-1 text-[11px] text-gray-400">เฉลี่ย <span x-text="Math.round(calculatePrice('Smart') / (employees > 40 ? employees : 40))"></span> บ./คน</div>
                     </div>
                     <ul class="space-y-3 text-xs text-gray-400 mb-8 flex-grow">
-                        <li class="flex items-start font-semibold text-gray-200"><i class="ph-fill ph-plus-circle text-purple-500 text-sm mr-2 mt-0.5"></i> ทุกฟีเจอร์ใน Small และ...</li>
+                        <li class="flex items-start font-semibold text-gray-200"><i class="ph-fill ph-plus-circle text-purple-500 text-sm mr-2 mt-0.5"></i> ทุกฟีเจอร์ใน Smooth และ...</li>
                         <li class="flex items-start"><i class="ph-fill ph-user-gear text-emerald-400 text-sm mr-2 mt-0.5"></i> <strong>Manager Role (ผู้จัดการร้าน)</strong></li>
                         <li class="flex items-start"><i class="ph-fill ph-coins text-emerald-400 text-sm mr-2 mt-0.5"></i> <strong>ระบบแบ่งงวดจ่าย (Split Pay)</strong></li>
                         <li class="flex items-start"><i class="ph-fill ph-file-text text-emerald-400 text-sm mr-2 mt-0.5"></i> คำนวณภาษี & ประกันสังคม</li>
@@ -291,7 +304,7 @@
                             <span class="text-gray-500 text-xs">/เดือน</span>
                         </div>
                         <p class="text-xs text-gray-400 mt-2 font-medium">✅ เริ่มต้น 50 คน</p>
-                        <div class="mt-1 text-[11px] text-gray-500">เฉลี่ย <span x-text="Math.round(calculatePrice('Scale') / employees)"></span> บ./คน</div>
+                        <div class="mt-1 text-[11px] text-gray-500">เฉลี่ย <span x-text="Math.round(calculatePrice('Scale') / (employees > 50 ? employees : 50))"></span> บ./คน</div>
                     </div>
                     <ul class="space-y-3 text-xs text-gray-300 mb-8 flex-grow relative z-10">
                         <li class="flex items-start font-semibold text-white"><i class="ph-fill ph-star text-yellow-500 text-sm mr-2 mt-0.5"></i> ทุกฟีเจอร์ใน Smart และ...</li>
@@ -321,7 +334,7 @@
                                 <tr class="border-b border-white/10">
                                     <th class="p-4 text-left text-slate-400 w-1/4">หัวข้อฟีเจอร์</th>
                                     <th class="p-4 text-center text-white w-1/6">Start</th>
-                                    <th class="p-4 text-center text-blue-400 w-1/6 bg-blue-600/10 rounded-t-xl border-t border-x border-blue-500/30">Small</th>
+                                    <th class="p-4 text-center text-blue-400 w-1/6 bg-blue-600/10 rounded-t-xl border-t border-x border-blue-500/30">Smooth</th>
                                     <th class="p-4 text-center text-purple-400 w-1/6">Smart</th>
                                     <th class="p-4 text-center text-white w-1/6 bg-white/5 rounded-t-xl">Scale</th>
                                 </tr>
@@ -492,7 +505,7 @@
 
     <section id="faq" class="py-16 bg-dark-bg border-t border-white/5">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">คำถามที่พบบ่อย</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">คำถามที่พบบ่อย (FAQ)</h2>
             <div class="space-y-3" x-data="{ active: null }">
                 <div class="glass-card rounded-xl overflow-hidden" :class="active === 1 ? 'bg-white/10' : ''">
                     <button @click="active = active === 1 ? null : 1" class="w-full p-4 text-left flex justify-between items-center"><span class="font-bold text-sm">พนักงานใช้มือถือรุ่นเก่า หรือเน็ตไม่ดี ใช้งานได้ไหม?</span><i class="ph-bold ph-caret-down"></i></button>
@@ -538,7 +551,7 @@
                 
                 get recommendedPlan() {
                     if (this.employees <= 10) return { name: 'Start', color: 'text-white' };
-                    if (this.employees <= 20) return { name: 'Small', color: 'text-blue-400' };
+                    if (this.employees <= 20) return { name: 'Smooth', color: 'text-blue-400' };
                     if (this.employees <= 40) return { name: 'Smart', color: 'text-purple-400' };
                     return { name: 'Scale', color: 'text-yellow-400' };
                 },
@@ -549,7 +562,7 @@
                     let topupPrice = 0;
 
                     if (plan === 'Start') { basePrice = 390; baseLimit = 10; topupPrice = 99; }
-                    else if (plan === 'Small') { basePrice = 490; baseLimit = 20; topupPrice = 99; }
+                    else if (plan === 'Smooth') { basePrice = 490; baseLimit = 20; topupPrice = 99; }
                     else if (plan === 'Smart') { basePrice = 890; baseLimit = 40; topupPrice = 159; }
                     else if (plan === 'Scale') { basePrice = 990; baseLimit = 50; topupPrice = 199; }
 
